@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Retirement Projector</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<main>
+    <h1>Retirement Projector</h1>
+    <div id="error_message"></div>
+
+    <form id="projection_form" novalidate>
+        <h2>Client Profile</h2>
+
+        <label for="client_name">Name:</label>
+        <input type="text" id="client_name" autofocus required autocomplete="name"
+               placeholder="First Last" title="Please enter your full name">
+        <span id="name_error" class="error">*</span><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required autocomplete="email"
+               placeholder="user@wsc.edu" title="Enter a valid college email address">
+        <span id="email_error" class="error">*</span><br>
+
+        <h2>Financial Data</h2>
+
+        <label for="investment">Current Savings:</label>
+        <input type="text" id="investment" required placeholder="100000"
+               title="Current savings total, not less than 0">
+        <span id="investment_error" class="error">*</span><br>
+
+        <label for="monthly_add">Monthly Contribution:</label>
+        <input type="text" id="monthly_add" required placeholder="500"
+               title="How much you add each month, not less than 0.">
+        <span id="add_error" class="error">*</span><br>
+
+        <label for="rate">Estimated Rate (%):</label>
+        <input type="text" id="rate" required placeholder="5.5"
+               title="Annual interest rate, not less than 0 or greater than 20.">
+        <span id="rate_error" class="error">*</span><br>
+
+        <label for="retirement_date">Retirement Date:</label>
+        <input type="date" id="retirement_date" required
+               title="Greater than 0 & less than 75 years">
+        <span id="retire_date_error" class="error">*</span><br>
+
+        <div id="button_row">
+            <button type="submit">Calculate</button>
+            <button type="reset">Reset</button>
+            <button type="button" id="test_data">Test Data</button>
+        </div>
+    </form>
+
+    <div id="results_panel">
+        <h3 id="status_message"></h3>
+        <div id="projection_output"></div>
+    </div>
+</main>
+<script src="retirement.js"></script>
+</body>
+</html>

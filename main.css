@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    width: 350px;
+    margin: 10px auto;
+    padding: 15px 25px;
+    border: 2px solid blue;
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: blue;
+    border-bottom: 2px solid blue;
+    margin: 0;
+    padding-bottom: 5px;
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.1em;
+    color: blue;
+    margin: 10px 0 5px 0;
+}
+
+#error_message {
+    color: red;
+    font-weight: bold;
+    min-height: 1.2em;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    margin-left: 5px;
+    font-size: 0.9em;
+}
+
+/* Form Alignment */
+label {
+    float: left;
+    width: 10em;
+    text-align: right;
+    margin-right: 1em;
+}
+
+input {
+    width: 11em;
+    margin-bottom: 5px;
+    padding: 2px;
+}
+
+br {
+    clear: left;
+}
+
+#button_row {
+    text-align: center;
+    margin: 15px 0;
+}
+
+button {
+    padding: 4px 12px;
+    cursor: pointer;
+}
+
+#results_panel {
+    text-align: center;
+    margin-top: 10px;
+    border-top: 2px solid blue;
+
+}
+
+#projection_output {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: green;
+    margin-top: 8px;
+}
