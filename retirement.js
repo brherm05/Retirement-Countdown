@@ -27,13 +27,25 @@ const formatter = new Intl.NumberFormat('en-US', {
 const processEntries = (evt) => {
     let isValid = true;
     let years = 0;
+    document.getElementById("name_error").textContent = "";
+    document.getElementById("email_error").textContent = "";
+    document.getElementById("investment_error").textContent = "";
+    document.getElementById("add_error").textContent = "";
+    document.getElementById("rate_error").textContent = "";
+    document.getElementById("retire_date_error").textContent = "";
 
     evt.preventDefault();
     resetForm()
 
-    // TODO: Validate Name
+    const name = document.getElementById("client_name").value;
+    const count = (name) => name.trim().split(/\s+/).length;
+    if (count(name) <= 1){
+        isValid = false;
+        document.getElementById("name_error").textContent = "Please enter your first and last name.";
+    }
 
     // TODO: Validate Email
+    const email = document.getElementById("email").value;
 
     // TODO: Validate Date
 
