@@ -27,8 +27,6 @@ const formatter = new Intl.NumberFormat('en-US', {
 const processEntries = (evt) => {
     let isValid = true;
     let years = 0;
-    document.getElementById("name_error").textContent = "";
-    document.getElementById("email_error").textContent = "";
     document.getElementById("investment_error").textContent = "";
     document.getElementById("add_error").textContent = "";
     document.getElementById("rate_error").textContent = "";
@@ -42,12 +40,26 @@ const processEntries = (evt) => {
     if (count(name) <= 1){
         isValid = false;
         document.getElementById("name_error").textContent = "Please enter your first and last name.";
+    } else {
+        document.getElementById("name_error").textContent = "";
     }
 
-    // TODO: Validate Email
     const email = document.getElementById("email").value;
+    if (!email.includes("@wsc.edu")){
+        isValid = false;
+        document.getElementById("email_error").textContent = "Please enter a valid email address.";
+    } else {
+        document.getElementById("email_error").textContent = "";
+    }
 
-    // TODO: Validate Date
+    const date = document.getElementById("retirement_date").value.slice(0, 4);
+    const current = new Date();
+    if (date - current.getFullYear() <= 0 || date - current.getFullYear() > 70){
+        isValid = false;
+        document.getElementById("retirement_date_error").textContent = "Please enter a valid date.";
+    } else {
+        document.getElementById("retirement_date_error").textContent = "";
+    }
 
     // TODO: Numeric Validations
 
@@ -90,10 +102,20 @@ const startProjection = (name, bal, add, rate, years) => {
 
 const setTestData = () => {
     resetForm();
-    // TODO: set default values for all input fields
+    document.getElementById("client_name").value = "Joe Smith";
+    document.getElementById("email").value = "josmith1@wsc.edu";
+    document.getElementById("investment").value = "100000";
+    document.getElementById("monthly_add").value = "500";
+    document.getElementById("rate").value = "5.5";
+    document.getElementById("retirement_date").value.setFullYear(2036, 3, 24);
 };
 
 const resetForm = () => {
+    document.getElementById("client_name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("investment").value = "";
+    document.getElementById("monthly_add").value = "";
+    document.getElementById("rate").value = "";
     /* TODO:
         clear all input fields
         clear the interval
