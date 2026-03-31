@@ -61,7 +61,6 @@ const processEntries = (evt) => {
         document.getElementById("retirement_date_error").textContent = "";
     }
 
-    // TODO: Numeric Validations
     const saving = document.getElementById("investment").value;
     if (saving <= 0 || saving === ""){
         isValid = false;
@@ -76,11 +75,22 @@ const processEntries = (evt) => {
         document.getElementById("add_error").textContent = "How much you add each month, not less than 0.";
     }
 
-    const rate = document.getElementById("rate").value;
-    if (rate <= 0 || rate === ""){
+    const interest = document.getElementById("rate").value;
+    if (interest <= 0 || interest === ""){
         isValid = false;
         document.getElementById("rate_error").textContent = "Annual interest rate, not less than 0 or greater than 20.";
     }
+
+    try {
+        if (!isValid) throw "Please correct the entries highlighted below.";
+        document.body.style.width = "350px";
+        startProjection(nameIn.value, invest, add, rate, years);
+    }
+    catch(e){
+        document.body.style.width = "750px";
+        errBox.innterText = e.message
+    }
+
 
     /* TODO: Code try-catch logic
         try
