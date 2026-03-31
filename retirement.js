@@ -62,6 +62,25 @@ const processEntries = (evt) => {
     }
 
     // TODO: Numeric Validations
+    const saving = document.getElementById("investment").value;
+    if (saving <= 0 || saving === ""){
+        isValid = false;
+        document.getElementById("investment_error").textContent = "Current savings total, not less than 0.";
+    } else {
+        document.getElementById("investment_error").textContent = "";
+    }
+
+    const monthly = document.getElementById("monthly_add").value;
+    if (monthly <= 0 || monthly === ""){
+        isValid = false;
+        document.getElementById("add_error").textContent = "How much you add each month, not less than 0.";
+    }
+
+    const rate = document.getElementById("rate").value;
+    if (rate <= 0 || rate === ""){
+        isValid = false;
+        document.getElementById("rate_error").textContent = "Annual interest rate, not less than 0 or greater than 20.";
+    }
 
     /* TODO: Code try-catch logic
         try
