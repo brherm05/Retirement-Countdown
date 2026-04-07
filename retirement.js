@@ -27,55 +27,50 @@ const formatter = new Intl.NumberFormat('en-US', {
 const processEntries = (evt) => {
     let isValid = true;
     let years = 0;
-    document.getElementById("investment_error").textContent = "";
-    document.getElementById("add_error").textContent = "";
-    document.getElementById("rate_error").textContent = "";
-    document.getElementById("retire_date_error").textContent = "";
-
     evt.preventDefault();
     resetForm()
 
-    const name = document.getElementById("client_name").value;
+    const name = nameIn.value.trim();
     const count = (name) => name.trim().split(/\s+/).length;
     if (count(name) <= 1){
         isValid = false;
         document.getElementById("name_error").textContent = "Please enter your first and last name.";
     } else {
-        document.getElementById("name_error").textContent = "";
+        document.getElementById("name_error").textContent = "*";
     }
 
-    const email = document.getElementById("email").value;
+    const email = emailIn.value.trim();
     if (!email.includes("@wsc.edu")){
         isValid = false;
         document.getElementById("email_error").textContent = "Please enter a valid email address.";
     } else {
-        document.getElementById("email_error").textContent = "";
+        document.getElementById("email_error").textContent = "*";
     }
 
-    const date = document.getElementById("retirement_date").value.slice(0, 4);
+    const date = dateIn.value.slice(0, 4);
     const current = new Date();
     if (date - current.getFullYear() <= 0 || date - current.getFullYear() > 70){
         isValid = false;
-        document.getElementById("retirement_date_error").textContent = "Please enter a valid date.";
+        document.getElementById("retire_date_error").textContent = "Please enter a valid date.";
     } else {
-        document.getElementById("retirement_date_error").textContent = "";
+        document.getElementById("retire_date_error").textContent = "*";
     }
 
-    const saving = document.getElementById("investment").value;
-    if (saving <= 0 || saving === ""){
+    const saving = investIn.value.trim();
+    if (saving <= 0 || saving === ''){
         isValid = false;
         document.getElementById("investment_error").textContent = "Current savings total, not less than 0.";
     } else {
-        document.getElementById("investment_error").textContent = "";
+        document.getElementById("investment_error").textContent = "*";
     }
 
-    const monthly = document.getElementById("monthly_add").value;
+    const monthly = addIn.value.trim();
     if (monthly <= 0 || monthly === ""){
         isValid = false;
         document.getElementById("add_error").textContent = "How much you add each month, not less than 0.";
     }
 
-    const interest = document.getElementById("rate").value;
+    const interest = rateIn.value.trim();
     if (interest <= 0 || interest === ""){
         isValid = false;
         document.getElementById("rate_error").textContent = "Annual interest rate, not less than 0 or greater than 20.";
@@ -84,23 +79,12 @@ const processEntries = (evt) => {
     try {
         if (!isValid) throw "Please correct the entries highlighted below.";
         document.body.style.width = "350px";
-        startProjection(nameIn.value, invest, add, rate, years);
-    }
-    catch(e){
+        startProjection(nameIn.value, saving, monthly, interest, years);
+    } catch(err){
         document.body.style.width = "750px";
-        errBox.innterText = e.message
+        errBox.innterText = err.message
     }
 
-
-    /* TODO: Code try-catch logic
-        try
-            if not valid then throw error "Please correct the entries highlighted below."
-            document.body.style.width = "350px";
-            startProjection(nameIn.value, invest, add, rate, years);
-         catch(e)
-            set the body width to 700px (like code above)
-            errBox.innerText = e.message;
-     */
 };
 
 const startProjection = (name, bal, add, rate, years) => {
@@ -108,50 +92,50 @@ const startProjection = (name, bal, add, rate, years) => {
     statusMsg.style.color = "red";
     let count = 1;
 
-    // TO-DO: startYear = the current year
     const startYear = new Date().getFullYear();
 
     let formattedBal = formatter.format(bal);
     output.innerHTML = `Year ${startYear} = ${formattedBal}`;
 
-    /* TODO: setup an interval to do the following
+    projectionTimer = setInterval(() => {
         for (let i = 0; i < 12; i++) {
             bal = ((bal + add) * (1 + (rate / 12 / 100))).toFixed(2);
         }
-        format the balance like the starting code above
-        update the output like the starting code above
-        if count is >= years
-            clear interval
-            update the statusMsg like the starting code above
-            set the statusMsg color to green like the starting code above
-        end if
-        add one to the count
-     */
+        formattedBal = formatter.format(bal);
+        output.innerHTML = `Year ${startYear} = ${formattedBal}`;
+
+        if (count >= years){
+            clearInterval(projectionTimer);
+            statusMsg.textContent = 'Calculation Completed!';
+            statusMsg.style.color = "red";
+        }
+        count++;
+    })
 };
 
 const setTestData = () => {
     resetForm();
+    const today = new Date()
+    today.setFullYear(today.getFullYear() + 10);
+    const future = today.toISOString().split("T")[0];
     document.getElementById("client_name").value = "Joe Smith";
     document.getElementById("email").value = "josmith1@wsc.edu";
     document.getElementById("investment").value = "100000";
     document.getElementById("monthly_add").value = "500";
     document.getElementById("rate").value = "5.5";
-    document.getElementById("retirement_date").value.setFullYear(2036, 3, 24);
+    document.getElementById("retirement_date").value = future;
+    console.log(future);
 };
 
 const resetForm = () => {
-    document.getElementById("client_name").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("investment").value = "";
-    document.getElementById("monthly_add").value = "";
-    document.getElementById("rate").value = "";
-    /* TODO:
-        clear all input fields
-        clear the interval
-        document.querySelectorAll(".error").forEach(s => s.textContent = "*");
-        set the body width to 350px (like code above)
-        set the focus to the name input field
-     */
+    errBox.textContent = "";
+    output.textContent = "";
+    statusMsg.textContent = "";
+    clearInterval(projectionTimer);
+    document.querySelectorAll(".error").forEach(s => s.textContent = "*");
+    document.body.style.width = "350px";
+    statusMsg.style.color = "red";
+    document.getElementById("client_name").focus();
 };
 
 document.addEventListener("DOMContentLoaded", () => {
